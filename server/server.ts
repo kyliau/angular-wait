@@ -25,6 +25,10 @@ function whenStable(callback: (didWork: boolean[]) => void): void {
   Promise.all(promises).then(callback);
 }
 
+function whenBootstrapped(): boolean {
+  return Array.isArray(window.frameworkStabilizers);
+}
+
 /**
  * This function is meant to be executed on the server (Node.js).
  * It returns a promise that resolves when the application is "stable".
@@ -34,5 +38,6 @@ function whenStable(callback: (didWork: boolean[]) => void): void {
  * @returns 
  */
 export async function waitForAngular(wd: WebDriver): Promise<boolean[]> {
+  await wd.wait(wd.executeScript(whenBootstrapped));
   return wd.executeAsyncScript(whenStable);
 }
