@@ -35,9 +35,8 @@ function whenBootstrapped(): boolean {
  * The promise might be rejected due to timeouts, or async tasks in the client
  * app that never finish (timers, etc).
  * @param wd WebDriver instance
- * @returns 
  */
 export async function waitForAngular(wd: WebDriver): Promise<boolean[]> {
-  await wd.wait(wd.executeScript(whenBootstrapped));
+  await wd.wait(() => wd.executeScript(whenBootstrapped));
   return wd.executeAsyncScript(whenStable);
 }
